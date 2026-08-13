@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=908dd2f5" />
+  <link rel="stylesheet" href="styles.css?v=20260813-2" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -85,7 +85,7 @@
           </article>
           <div id="entryProtected" hidden>
           <div class="entry-tabs" id="entryTabs"><button class="active" data-entry="waste">ขยะ</button><button data-entry="electricity">ไฟฟ้า</button><button data-entry="fuel">เชื้อเพลิง</button><button data-entry="water">น้ำ</button></div>
-          <article class="panel form-panel"><form id="entryForm"><input type="hidden" name="category" id="entryCategory" value="waste" /><div class="form-grid common-fields"><label>ปีการศึกษา<select name="academicYear" required><option selected>2569</option><option>2568</option><option>2567</option></select></label><label>เดือน<select name="month" required id="entryMonth"></select></label><label>ผู้บันทึก<input name="recorder" required placeholder="ชื่อ-นามสกุล" /></label></div><div id="dynamicFields"></div><div class="form-grid"><label class="span-2">ลิงก์หลักฐาน<input name="evidenceUrl" type="url" placeholder="Google Drive URL (ถ้ามี)" /></label><label class="span-2">หมายเหตุ<textarea name="note" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea></label></div><div class="form-actions"><button type="reset" class="btn secondary">ล้างข้อมูล</button><button type="submit" class="btn primary">บันทึกข้อมูล</button></div></form></article><div class="sync-note" id="syncNote"></div>
+          <article class="panel form-panel"><form id="entryForm"><input type="hidden" name="category" id="entryCategory" value="waste" /><div class="form-grid common-fields"><label>ปีการศึกษา<select name="academicYear" required><option selected>2569</option><option>2568</option><option>2567</option></select></label><label>เดือน<select name="month" required id="entryMonth"></select></label><label>ผู้บันทึก<input name="recorder" required placeholder="ชื่อ-นามสกุล" /></label></div><div id="dynamicFields"></div><div class="form-grid"><label class="span-2">ลิงก์หลักฐาน<input name="evidenceUrl" type="url" placeholder="Google Drive URL (ถ้ามี)" /></label><label class="span-2">หมายเหตุ<textarea name="note" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea></label></div><div class="form-actions"><button type="reset" class="btn secondary">ล้างข้อมูล</button><button type="submit" class="btn primary">บันทึกข้อมูล</button></div><div class="entry-status" id="entryStatus" role="status" aria-live="polite" hidden></div></form></article><div class="sync-note" id="syncNote"></div>
           </div>
         </section>
         <section class="page" id="reports"><div class="section-heading"><div><h2>📊 รายงาน</h2><p>สรุปข้อมูลเพื่อใช้ตรวจสอบและประกอบรายงานสิ่งแวดล้อม</p></div><div><button class="btn secondary" id="printBtn">🖨️ พิมพ์รายงาน</button></div></div><article class="panel report-cover"><h2>รายงานภาพรวมสิ่งแวดล้อม โรงเรียนเซนต์เทเรซา</h2><p>เปรียบเทียบปีการศึกษา 2567 และ 2568</p><div class="report-summary" id="reportSummary"></div></article><article class="panel"><div class="panel-head"><div><h3>ตารางสรุปตัวชี้วัด</h3></div></div><div class="table-wrap"><table><thead><tr><th>ด้าน</th><th>ปี 2567</th><th>ปี 2568</th><th>ผลการเปลี่ยนแปลง</th></tr></thead><tbody id="reportTable"></tbody></table></div></article></section>
@@ -93,6 +93,6 @@
     </main>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="config.js?v=8c1e8f5"></script><script src="data.js"></script><script src="app.js?v=8c1e8f5"></script>
+  <script src="config.js?v=8c1e8f5"></script><script src="data.js"></script><script src="app.js?v=20260813-2"></script>
 </body>
 </html>
