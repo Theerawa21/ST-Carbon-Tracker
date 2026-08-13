@@ -127,21 +127,64 @@
   D.months.forEach((m,i)=>document.getElementById('entryMonth').insertAdjacentHTML('beforeend',`<option value="${i+1}">${m}</option>`));
   function setEntryCategory(cat){document.getElementById('entryCategory').value=cat;document.getElementById('dynamicFields').innerHTML=entryFields[cat];document.querySelectorAll('[data-entry]').forEach(b=>b.classList.toggle('active',b.dataset.entry===cat))}
   document.getElementById('entryTabs').addEventListener('click',e=>{const b=e.target.closest('[data-entry]');if(b)setEntryCategory(b.dataset.entry)});setEntryCategory('waste');
+  function setEntryStatus(type,title,detail=''){
+    const box=document.getElementById('entryStatus');
+    box.className=`entry-status ${type}`;
+    box.replaceChildren();
+    const heading=document.createElement('strong');
+    heading.textContent=title;
+    box.appendChild(heading);
+    if(detail){
+      const description=document.createElement('span');
+      description.textContent=detail;
+      box.appendChild(description);
+    }
+    box.hidden=false;
+    box.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function clearEntryStatus(){
+    const box=document.getElementById('entryStatus');
+    box.hidden=true;
+    box.replaceChildren();
+  }
   document.getElementById('syncNote').innerHTML=CFG.apiUrl?`เชื่อมต่อ API แล้ว: ข้อมูลใหม่จะส่งไปยัง Google Sheets`:`โหมดปัจจุบัน: <b>หน้าเว็บพร้อมใช้งาน แต่ยังไม่ได้ระบุ Google Apps Script Web App URL</b> ข้อมูลที่กดบันทึกจะเก็บในเบราว์เซอร์ชั่วคราวก่อน`;
   document.getElementById('entryForm').addEventListener('submit',async e=>{
     e.preventDefault();
+    const form=e.currentTarget;
+    const submitButton=form.querySelector('button[type="submit"]');
     const category=document.getElementById('entryCategory').value;
-    const payload=Object.fromEntries(new FormData(e.currentTarget).entries());payload.category=category;payload.timestamp=new Date().toISOString();
+    const payload=Object.fromEntries(new FormData(form).entries());
+    payload.category=category;
+    payload.timestamp=new Date().toISOString();
+    clearEntryStatus();
+    submitButton.disabled=true;
+    submitButton.textContent='กำลังบันทึก...';
     try{
+      let savedRecordId='';
       if(CFG.apiUrl){
         const res=await fetch(CFG.apiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'addRecord',payload})});
         if(!res.ok)throw new Error(`API HTTP ${res.status}`);
         const result=await res.json();
         if(!result.ok)throw new Error(result.error||'API rejected the record');
+        savedRecordId=result.recordId||'';
       }
-      else{const local=JSON.parse(localStorage.getItem('st_energy_mind_records')||'[]');local.unshift(payload);localStorage.setItem('st_energy_mind_records',JSON.stringify(local));}
-      toast('บันทึกข้อมูลเรียบร้อยแล้ว');e.currentTarget.reset();setEntryCategory(category);
-    }catch(err){console.error(err);toast('บันทึกไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ API')}
+      else{
+        const local=JSON.parse(localStorage.getItem('st_energy_mind_records')||'[]');
+        local.unshift(payload);
+        localStorage.setItem('st_energy_mind_records',JSON.stringify(local));
+      }
+      form.reset();
+      setEntryCategory(category);
+      setEntryStatus('success','✅ บันทึกข้อมูลเรียบร้อยแล้ว',savedRecordId?`รหัสรายการ: ${savedRecordId}`:'ข้อมูลถูกบันทึกแล้ว');
+      toast('บันทึกข้อมูลเรียบร้อยแล้ว');
+    }catch(err){
+      console.error(err);
+      setEntryStatus('error','❌ บันทึกข้อมูลไม่สำเร็จ','กรุณาตรวจสอบการเชื่อมต่อแล้วลองอีกครั้ง');
+      toast('บันทึกไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ API');
+    }finally{
+      submitButton.disabled=false;
+      submitButton.textContent='บันทึกข้อมูล';
+    }
   });
 
   function renderReports(){
