@@ -23,6 +23,8 @@
   const pages = [...document.querySelectorAll('.page')];
   const pageTitles = {overview:'ภาพรวมสิ่งแวดล้อม',waste:'การจัดการขยะ',electricity:'การใช้ไฟฟ้า',fuel:'การใช้น้ำมันเชื้อเพลิง',water:'การใช้น้ำ',carbon:'Carbon Dashboard',entry:'บันทึกข้อมูล',reports:'รายงาน'};
   const charts = {};
+  const ENTRY_ACCESS_CODE = '1234';
+  let entryUnlocked = false;
 
   function showPage(id){
     pages.forEach(p=>p.classList.toggle('active',p.id===id));
@@ -30,6 +32,7 @@
     document.getElementById('pageTitle').textContent = pageTitles[id] || '';
     document.getElementById('sidebar').classList.remove('open');
     window.scrollTo({top:0,behavior:'smooth'});
+    if(id==='entry'&&!entryUnlocked) setTimeout(()=>document.getElementById('entryAccessCode').focus(),100);
   }
   document.querySelector('.nav').addEventListener('click',e=>{const b=e.target.closest('[data-page]'); if(b) showPage(b.dataset.page)});
   document.getElementById('menuBtn').addEventListener('click',()=>document.getElementById('sidebar').classList.toggle('open'));
@@ -96,6 +99,25 @@
     chart('carbonDetailDonut',{type:'doughnut',data:{labels:['ไฟฟ้า','เชื้อเพลิง','น้ำ'],datasets:[{data:[carbon.electricity[2568],carbon.fuel[2568],carbon.water[2568]],backgroundColor:['#d99316','#c94b4b','#2676b8'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom'}}}});
   }
 
+  const entryAccessForm=document.getElementById('entryAccessForm');
+  const entryAccessCode=document.getElementById('entryAccessCode');
+  const entryAccessError=document.getElementById('entryAccessError');
+  if(entryAccessForm) entryAccessForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    if(entryAccessCode.value===ENTRY_ACCESS_CODE){
+      entryUnlocked=true;
+      document.getElementById('entryAccessPanel').hidden=true;
+      document.getElementById('entryProtected').hidden=false;
+      entryAccessError.textContent='';
+      entryAccessCode.value='';
+      document.querySelector('#entryProtected input[name="recorder"]').focus();
+      toast('เข้าสู่หน้าบันทึกข้อมูลแล้ว');
+      return;
+    }
+    entryAccessError.textContent='รหัสไม่ถูกต้อง กรุณาลองใหม่';
+    entryAccessCode.select();
+  });
+
   const entryFields={
     waste:`<div class="form-grid"><label>ขยะทั่วไป (กก.)<input name="generalKg" type="number" step="0.01" min="0" required></label><label>ขยะรีไซเคิล (กก.)<input name="recycleKg" type="number" step="0.01" min="0" required></label><label>ขยะอินทรีย์ (กก.)<input name="organicKg" type="number" step="0.01" min="0" required></label><label>ขยะอันตราย (กก.)<input name="hazardousKg" type="number" step="0.01" min="0" required></label></div>`,
     electricity:`<div class="form-grid"><label>ปริมาณไฟฟ้า (kWh)<input name="electricityKWh" type="number" step="0.01" min="0" required></label><label>ค่าไฟฟ้า (บาท)<input name="cost" type="number" step="0.01" min="0"></label></div>`,
@@ -111,7 +133,12 @@
     const category=document.getElementById('entryCategory').value;
     const payload=Object.fromEntries(new FormData(e.currentTarget).entries());payload.category=category;payload.timestamp=new Date().toISOString();
     try{
-      if(CFG.apiUrl){const res=await fetch(CFG.apiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'addRecord',payload})});if(!res.ok)throw new Error('API error');}
+      if(CFG.apiUrl){
+        const res=await fetch(CFG.apiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'addRecord',payload})});
+        if(!res.ok)throw new Error(`API HTTP ${res.status}`);
+        const result=await res.json();
+        if(!result.ok)throw new Error(result.error||'API rejected the record');
+      }
       else{const local=JSON.parse(localStorage.getItem('st_energy_mind_records')||'[]');local.unshift(payload);localStorage.setItem('st_energy_mind_records',JSON.stringify(local));}
       toast('บันทึกข้อมูลเรียบร้อยแล้ว');e.currentTarget.reset();setEntryCategory(category);
     }catch(err){console.error(err);toast('บันทึกไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อ API')}
