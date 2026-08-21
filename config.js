@@ -4,3 +4,27 @@ window.APP_CONFIG = {
   schoolName: 'โรงเรียนเซนต์เทเรซา',
   dataMode: 'api'
 };
+
+(() => {
+  const SHEETS_ACCESS_CODE = '1234';
+  const sheetsLink = document.querySelector('.sidebar-note a[href*="docs.google.com/spreadsheets"]');
+  if (!sheetsLink) return;
+
+  const sheetsUrl = sheetsLink.href;
+  sheetsLink.textContent = 'Google Sheets 🔒 ↗';
+  sheetsLink.title = 'กรอกรหัสเพื่อเข้าสู่ฐานข้อมูล';
+
+  sheetsLink.addEventListener('click', event => {
+    event.preventDefault();
+    const code = window.prompt('กรุณากรอกรหัสเพื่อเข้าสู่ฐานข้อมูล Google Sheets');
+
+    if (code === SHEETS_ACCESS_CODE) {
+      window.open(sheetsUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    if (code !== null) {
+      window.alert('รหัสไม่ถูกต้อง กรุณาลองใหม่');
+    }
+  });
+})();
