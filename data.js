@@ -6,7 +6,7 @@ window.ST_DATA = {
   status: {
     2567: { complete: true, note: 'ข้อมูลครบปีการศึกษา' },
     2568: { complete: true, note: 'ข้อมูลครบปีการศึกษา' },
-    2569: { complete: false, throughMonth: 3, note: 'ข้อมูลปี 2569 อยู่ระหว่างบันทึก ปัจจุบันมีข้อมูลขยะถึงเดือนกรกฎาคม' }
+    2569: { complete: false, throughMonth: 3, note: 'ข้อมูลปี 2569 อยู่ระหว่างบันทึก ปัจจุบันมีข้อมูลขยะถึงเดือนกรกฎาคม และข้อมูลน้ำถึงเดือนมิถุนายน' }
   },
   waste: {
     2567: { general:22644.00, recycle:9984.60, organic:8640.10, hazardous:41.50, total:41310.20 },
@@ -26,7 +26,7 @@ window.ST_DATA = {
   water: {
     2567: [1790,2001,2161,1914,1386,1566,1628,1431,1879,1220,1240,869],
     2568: [1785,1665,1693,1877,1158,1673,1716,1664,2008,1308,1590,1148],
-    2569: [null,null,null,null,null,null,null,null,null,null,null,null]
+    2569: [1141,1904,null,null,null,null,null,null,null,null,null,null]
   },
   factors: {
     electricity: 0.5562,
