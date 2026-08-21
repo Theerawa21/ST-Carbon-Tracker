@@ -38,40 +38,100 @@
         <a href="https://docs.google.com/spreadsheets/d/1LVh0yj1yvTv4RtR_L1H6rgAatZNEzpgr3MO-9xIUImw/edit" target="_blank" rel="noreferrer">Google Sheets ↗</a>
       </div>
     </aside>
+
     <main class="main">
       <header class="topbar">
         <div class="top-left">
           <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนู">☰</button>
-          <div><h1 id="pageTitle">ภาพรวมสิ่งแวดล้อม</h1><p>ติดตามข้อมูลจากปีการศึกษา 2567–2568</p></div>
+          <div>
+            <h1 id="pageTitle">ภาพรวมสิ่งแวดล้อม</h1>
+            <p id="trackingYearsText">ติดตามข้อมูลจากปีการศึกษา 2567–2569</p>
+          </div>
         </div>
         <div class="top-actions">
-          <label class="year-control">ปีการศึกษา<select id="yearSelect"><option value="2568" selected>2568</option><option value="2567">2567</option></select></label>
+          <label class="year-control">ปีการศึกษา
+            <select id="yearSelect">
+              <option value="2569" selected>2569</option>
+              <option value="2568">2568</option>
+              <option value="2567">2567</option>
+            </select>
+          </label>
           <button class="btn secondary" id="refreshBtn">↻ รีเฟรช</button>
         </div>
       </header>
+
       <div class="content">
         <section class="page active" id="overview">
           <div class="hero">
-            <div><h2>Environmental Performance Dashboard</h2><p>ขยะ • ไฟฟ้า • เชื้อเพลิง • น้ำ • Carbon Footprint</p><div class="hero-meta"><span>นักเรียน <b id="heroStudents">3,419</b> คน</span><span>เทียบปีฐาน <b>2567</b></span></div></div>
+            <div>
+              <h2>Environmental Performance Dashboard</h2>
+              <p>ขยะ • ไฟฟ้า • เชื้อเพลิง • น้ำ • Carbon Footprint</p>
+              <div class="hero-meta">
+                <span>นักเรียน <b id="heroStudents">—</b> คน</span>
+                <span>เทียบปีฐาน <b>2567</b></span>
+              </div>
+            </div>
             <div class="hero-score"><span>4 ด้าน</span><strong>Energy Mind</strong><small>ข้อมูลเพื่อการจัดการอย่างยั่งยืน</small></div>
           </div>
           <div class="kpi-grid" id="overviewKpis"></div>
           <div class="dashboard-grid two-one">
-            <article class="panel"><div class="panel-head"><div><h3>เปรียบเทียบผลการดำเนินงาน</h3><p>ปี 2567 เทียบ 2568</p></div></div><div class="chart-box"><canvas id="overviewChart"></canvas></div></article>
-            <article class="panel"><div class="panel-head"><div><h3>Carbon Footprint</h3><p>สัดส่วนจากกิจกรรมที่ติดตาม</p></div></div><div class="chart-box small"><canvas id="carbonDonut"></canvas></div><div class="factor-warning">Emission Factor ในระบบอยู่ระหว่างยืนยันแหล่งอ้างอิงสำหรับรายงานทางการ</div></article>
+            <article class="panel">
+              <div class="panel-head"><div><h3>เปรียบเทียบผลการดำเนินงาน</h3><p id="overviewCompareText">ปี 2567–2569</p></div></div>
+              <div class="chart-box"><canvas id="overviewChart"></canvas></div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h3>Carbon Footprint</h3><p>สัดส่วนจากกิจกรรมที่ติดตาม</p></div></div>
+              <div class="chart-box small"><canvas id="carbonDonut"></canvas></div>
+              <div class="factor-warning" id="carbonStatusNote">Emission Factor ในระบบอยู่ระหว่างยืนยันแหล่งอ้างอิงสำหรับรายงานทางการ</div>
+            </article>
           </div>
-          <article class="panel insight-panel"><div class="panel-head"><div><h3>สรุปเชิงวิเคราะห์ ปีการศึกษา 2568</h3><p>สร้างจากข้อมูลที่บันทึกในระบบ</p></div></div><div class="insight-grid" id="overviewInsights"></div></article>
+          <article class="panel insight-panel">
+            <div class="panel-head"><div><h3 id="overviewInsightTitle">สรุปเชิงวิเคราะห์ ปีการศึกษา 2569</h3><p>สร้างจากข้อมูลที่บันทึกในระบบ</p></div></div>
+            <div class="insight-grid" id="overviewInsights"></div>
+          </article>
         </section>
+
         <section class="page" id="waste">
           <div class="section-heading"><div><h2>♻️ ด้านการจัดการขยะ</h2><p>ติดตามขยะรวม ขยะแยกประเภท และปริมาณขยะต่อหัวนักเรียน</p></div></div>
           <div class="kpi-grid" id="wasteKpis"></div>
-          <div class="dashboard-grid two-one"><article class="panel"><div class="panel-head"><div><h3>เปรียบเทียบประเภทขยะ</h3><p>หน่วย: กิโลกรัม</p></div></div><div class="chart-box"><canvas id="wasteChart"></canvas></div></article><article class="panel"><div class="panel-head"><div><h3>ขยะต่อหัวนักเรียน</h3><p>กก./คน/ปี</p></div></div><div class="big-compare" id="wastePerCapita"></div></article></div>
-          <article class="panel"><div class="panel-head"><div><h3>รายละเอียดตามประเภท</h3></div></div><div class="table-wrap"><table><thead><tr><th>ประเภท</th><th>2567</th><th>2568</th><th>ผลต่าง</th></tr></thead><tbody id="wasteTable"></tbody></table></div></article>
+          <div class="dashboard-grid two-one">
+            <article class="panel"><div class="panel-head"><div><h3>เปรียบเทียบประเภทขยะ</h3><p>หน่วย: กิโลกรัม</p></div></div><div class="chart-box"><canvas id="wasteChart"></canvas></div></article>
+            <article class="panel"><div class="panel-head"><div><h3>ขยะต่อหัวนักเรียน</h3><p>กก./คน/ปี</p></div></div><div class="big-compare" id="wastePerCapita"></div></article>
+          </div>
+          <article class="panel">
+            <div class="panel-head"><div><h3>รายละเอียดตามประเภท</h3></div></div>
+            <div class="table-wrap"><table><thead><tr><th>ประเภท</th><th id="wasteBaseYearHead">2568</th><th id="wasteSelectedYearHead">2569</th><th>ผลต่าง</th></tr></thead><tbody id="wasteTable"></tbody></table></div>
+          </article>
         </section>
-        <section class="page" id="electricity"><div class="section-heading"><div><h2>⚡ ด้านพลังงานไฟฟ้า</h2><p>ติดตามการใช้ไฟฟ้ารายเดือน การใช้ต่อหัว และ Carbon Emission</p></div></div><div class="kpi-grid" id="electricityKpis"></div><article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้ไฟฟ้ารายเดือน</h3><p>หน่วย: kWh</p></div></div><div class="chart-box"><canvas id="electricityChart"></canvas></div></article></section>
-        <section class="page" id="fuel"><div class="section-heading"><div><h2>⛽ ด้านการใช้น้ำมันเชื้อเพลิง</h2><p>ติดตามน้ำมันดีเซลและ Carbon Footprint จากยานพาหนะของโรงเรียน</p></div></div><div class="kpi-grid" id="fuelKpis"></div><article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้น้ำมันดีเซลรายเดือน</h3><p>หน่วย: ลิตร</p></div></div><div class="chart-box"><canvas id="fuelChart"></canvas></div></article></section>
-        <section class="page" id="water"><div class="section-heading"><div><h2>💧 ด้านการใช้น้ำ</h2><p>ติดตามปริมาณการใช้น้ำรวม การใช้ต่อหัว และ Carbon Footprint</p></div></div><div class="kpi-grid" id="waterKpis"></div><article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้น้ำรายเดือน</h3><p>หน่วย: ลูกบาศก์เมตร</p></div></div><div class="chart-box"><canvas id="waterChart"></canvas></div></article></section>
-        <section class="page" id="carbon"><div class="section-heading"><div><h2>🌍 Carbon Dashboard</h2><p>ภาพรวมการปล่อยก๊าซเรือนกระจกจากไฟฟ้า เชื้อเพลิง และน้ำ</p></div></div><div class="kpi-grid" id="carbonKpis"></div><div class="dashboard-grid two-one"><article class="panel"><div class="panel-head"><div><h3>Carbon Footprint รวม</h3><p>kgCO₂e</p></div></div><div class="chart-box"><canvas id="carbonCompareChart"></canvas></div></article><article class="panel"><div class="panel-head"><div><h3>สัดส่วนปี 2568</h3></div></div><div class="chart-box small"><canvas id="carbonDetailDonut"></canvas></div></article></div><div class="notice"><b>หมายเหตุ:</b> ค่า Carbon ในหน้าระบบใช้ Emission Factor ตามชุดข้อมูลปัจจุบัน ซึ่งถูกทำเครื่องหมายให้ตรวจสอบแหล่งอ้างอิงก่อนใช้ในเอกสารทางการ</div></section>
+
+        <section class="page" id="electricity">
+          <div class="section-heading"><div><h2>⚡ ด้านพลังงานไฟฟ้า</h2><p>ติดตามการใช้ไฟฟ้ารายเดือน การใช้ต่อหัว และ Carbon Emission</p></div></div>
+          <div class="kpi-grid" id="electricityKpis"></div>
+          <article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้ไฟฟ้ารายเดือน</h3><p>หน่วย: kWh</p></div></div><div class="chart-box"><canvas id="electricityChart"></canvas></div></article>
+        </section>
+
+        <section class="page" id="fuel">
+          <div class="section-heading"><div><h2>⛽ ด้านการใช้น้ำมันเชื้อเพลิง</h2><p>ติดตามน้ำมันดีเซลและ Carbon Footprint จากยานพาหนะของโรงเรียน</p></div></div>
+          <div class="kpi-grid" id="fuelKpis"></div>
+          <article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้น้ำมันดีเซลรายเดือน</h3><p>หน่วย: ลิตร</p></div></div><div class="chart-box"><canvas id="fuelChart"></canvas></div></article>
+        </section>
+
+        <section class="page" id="water">
+          <div class="section-heading"><div><h2>💧 ด้านการใช้น้ำ</h2><p>ติดตามปริมาณการใช้น้ำรวม การใช้ต่อหัว และ Carbon Footprint</p></div></div>
+          <div class="kpi-grid" id="waterKpis"></div>
+          <article class="panel"><div class="panel-head"><div><h3>แนวโน้มการใช้น้ำรายเดือน</h3><p>หน่วย: ลูกบาศก์เมตร</p></div></div><div class="chart-box"><canvas id="waterChart"></canvas></div></article>
+        </section>
+
+        <section class="page" id="carbon">
+          <div class="section-heading"><div><h2>🌍 Carbon Dashboard</h2><p>ภาพรวมการปล่อยก๊าซเรือนกระจกจากไฟฟ้า เชื้อเพลิง และน้ำ</p></div></div>
+          <div class="kpi-grid" id="carbonKpis"></div>
+          <div class="dashboard-grid two-one">
+            <article class="panel"><div class="panel-head"><div><h3>Carbon Footprint รวม</h3><p>kgCO₂e</p></div></div><div class="chart-box"><canvas id="carbonCompareChart"></canvas></div></article>
+            <article class="panel"><div class="panel-head"><div><h3 id="carbonShareTitle">สัดส่วนปี 2569</h3></div></div><div class="chart-box small"><canvas id="carbonDetailDonut"></canvas></div></article>
+          </div>
+          <div class="notice"><b>หมายเหตุ:</b> ค่า Carbon ในหน้าระบบใช้ Emission Factor ตามชุดข้อมูลปัจจุบัน ซึ่งถูกทำเครื่องหมายให้ตรวจสอบแหล่งอ้างอิงก่อนใช้ในเอกสารทางการ</div>
+        </section>
+
         <section class="page" id="entry">
           <div class="section-heading"><div><h2>✍️ บันทึกข้อมูล</h2><p>เลือกด้านที่ต้องการบันทึก ระบบจะเตรียมข้อมูลสำหรับส่งไปยัง Google Sheets</p></div></div>
           <article class="panel access-panel" id="entryAccessPanel">
@@ -84,15 +144,40 @@
             </form>
           </article>
           <div id="entryProtected" hidden>
-          <div class="entry-tabs" id="entryTabs"><button class="active" data-entry="waste">ขยะ</button><button data-entry="electricity">ไฟฟ้า</button><button data-entry="fuel">เชื้อเพลิง</button><button data-entry="water">น้ำ</button></div>
-          <article class="panel form-panel"><form id="entryForm"><input type="hidden" name="category" id="entryCategory" value="waste" /><div class="form-grid common-fields"><label>ปีการศึกษา<select name="academicYear" required><option selected>2569</option><option>2568</option><option>2567</option></select></label><label>เดือน<select name="month" required id="entryMonth"></select></label><label>ผู้บันทึก<input name="recorder" required placeholder="ชื่อ-นามสกุล" /></label></div><div id="dynamicFields"></div><div class="form-grid"><label class="span-2">ลิงก์หลักฐาน<input name="evidenceUrl" type="url" placeholder="Google Drive URL (ถ้ามี)" /></label><label class="span-2">หมายเหตุ<textarea name="note" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea></label></div><div class="form-actions"><button type="reset" class="btn secondary">ล้างข้อมูล</button><button type="submit" class="btn primary">บันทึกข้อมูล</button></div><div class="entry-status" id="entryStatus" role="status" aria-live="polite" hidden></div></form></article><div class="sync-note" id="syncNote"></div>
+            <div class="entry-tabs" id="entryTabs"><button class="active" data-entry="waste">ขยะ</button><button data-entry="electricity">ไฟฟ้า</button><button data-entry="fuel">เชื้อเพลิง</button><button data-entry="water">น้ำ</button></div>
+            <article class="panel form-panel">
+              <form id="entryForm">
+                <input type="hidden" name="category" id="entryCategory" value="waste" />
+                <div class="form-grid common-fields">
+                  <label>ปีการศึกษา<select name="academicYear" required><option selected>2569</option><option>2568</option><option>2567</option></select></label>
+                  <label>เดือน<select name="month" required id="entryMonth"></select></label>
+                  <label>ผู้บันทึก<input name="recorder" required placeholder="ชื่อ-นามสกุล" /></label>
+                </div>
+                <div id="dynamicFields"></div>
+                <div class="form-grid">
+                  <label class="span-2">ลิงก์หลักฐาน<input name="evidenceUrl" type="url" placeholder="Google Drive URL (ถ้ามี)" /></label>
+                  <label class="span-2">หมายเหตุ<textarea name="note" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea></label>
+                </div>
+                <div class="form-actions"><button type="reset" class="btn secondary">ล้างข้อมูล</button><button type="submit" class="btn primary">บันทึกข้อมูล</button></div>
+                <div class="entry-status" id="entryStatus" role="status" aria-live="polite" hidden></div>
+              </form>
+            </article>
+            <div class="sync-note" id="syncNote"></div>
           </div>
         </section>
-        <section class="page" id="reports"><div class="section-heading"><div><h2>📊 รายงาน</h2><p>สรุปข้อมูลเพื่อใช้ตรวจสอบและประกอบรายงานสิ่งแวดล้อม</p></div><div><button class="btn secondary" id="printBtn">🖨️ พิมพ์รายงาน</button></div></div><article class="panel report-cover"><h2>รายงานภาพรวมสิ่งแวดล้อม โรงเรียนเซนต์เทเรซา</h2><p>เปรียบเทียบปีการศึกษา 2567 และ 2568</p><div class="report-summary" id="reportSummary"></div></article><article class="panel"><div class="panel-head"><div><h3>ตารางสรุปตัวชี้วัด</h3></div></div><div class="table-wrap"><table><thead><tr><th>ด้าน</th><th>ปี 2567</th><th>ปี 2568</th><th>ผลการเปลี่ยนแปลง</th></tr></thead><tbody id="reportTable"></tbody></table></div></article></section>
+
+        <section class="page" id="reports">
+          <div class="section-heading"><div><h2>📊 รายงาน</h2><p>สรุปข้อมูลเพื่อใช้ตรวจสอบและประกอบรายงานสิ่งแวดล้อม</p></div><div><button class="btn secondary" id="printBtn">🖨️ พิมพ์รายงาน</button></div></div>
+          <article class="panel report-cover"><h2>รายงานภาพรวมสิ่งแวดล้อม โรงเรียนเซนต์เทเรซา</h2><p id="reportCoverText">เปรียบเทียบปีการศึกษา 2568 และ 2569</p><div class="report-summary" id="reportSummary"></div></article>
+          <article class="panel"><div class="panel-head"><div><h3>ตารางสรุปตัวชี้วัด</h3></div></div><div class="table-wrap"><table><thead><tr><th>ด้าน</th><th id="reportBaseYearHead">ปี 2568</th><th id="reportSelectedYearHead">ปี 2569</th><th>ผลการเปลี่ยนแปลง</th></tr></thead><tbody id="reportTable"></tbody></table></div></article>
+        </section>
       </div>
     </main>
   </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="config.js?v=8c1e8f5"></script><script src="data.js"></script><script src="app.js?v=20260813-2"></script>
+  <script src="config.js?v=8c1e8f5"></script>
+  <script src="data.js?v=20260821-1"></script>
+  <script src="app.js?v=20260821-1"></script>
 </body>
 </html>
